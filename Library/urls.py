@@ -17,10 +17,20 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
+
+from books.views import BookViewSet
+from borrowings.views import BorrowingViewSet
+
+router = routers.DefaultRouter()
+
+router.register("books", BookViewSet)
+router.register("borrowings", BorrowingViewSet)
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include("books.urls", namespace="books")),
+    path("api/", include(router.urls)),
     path("api/users/", include("users.urls", namespace="users")),
-    path("api/", include("borrowings.urls", namespace="borrowings")),
+
 ]
