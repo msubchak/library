@@ -3,9 +3,9 @@ from datetime import date
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from Library.permissions import IsAdminOrIfAuthenticatedReadOnly
 from borrowings.models import Borrowing
 from borrowings.serializers import BorrowingListSerializer, BorrowingRetrieveSerializer, BorrowingCreateSerializer, \
     BorrowingReturnSerializer
@@ -13,7 +13,7 @@ from borrowings.serializers import BorrowingListSerializer, BorrowingRetrieveSer
 
 class BorrowingViewSet(viewsets.ModelViewSet):
     queryset = Borrowing.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
     def get_queryset(self):
         queryset = self.queryset
