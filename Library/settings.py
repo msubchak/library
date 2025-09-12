@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "borrowings",
     "payments",
     "rest_framework",
+    "django_crontab",
 ]
 
 AUTH_USER_MODEL = "users.User"
@@ -132,8 +133,11 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-   "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-   "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-   "ROTATE_REFRESH_TOKENS": True
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ROTATE_REFRESH_TOKENS": True
 }
 
+CRONJOBS = [
+    ('0 9 * * *', 'borrowings.tasks.overdue_books')
+]
