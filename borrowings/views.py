@@ -1,4 +1,7 @@
+import os
 from datetime import date
+import requests
+from dotenv import load_dotenv
 
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
@@ -9,6 +12,20 @@ from Library.permissions import IsAdminOrIfAuthenticatedReadOnly
 from borrowings.models import Borrowing
 from borrowings.serializers import BorrowingListSerializer, BorrowingRetrieveSerializer, BorrowingCreateSerializer, \
     BorrowingReturnSerializer
+
+
+load_dotenv()
+
+
+def text_telegram(text):
+    bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    if not bot_token or not chat_id:
+        print("Telegram not configured. Message:", text)
+        return
+    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+    resp = requests.post(url, data={"chat_id": chat_id, "text": text})
+    print(resp.status_code, resp.text)
 
 
 class BorrowingViewSet(viewsets.ModelViewSet):
@@ -31,6 +48,7 @@ class BorrowingViewSet(viewsets.ModelViewSet):
             return BorrowingReturnSerializer
         return BorrowingRetrieveSerializer
 
+
     def perform_create(self, serializer):
         book = serializer.validated_data["book"]
         if book.inventory <= 0:
@@ -40,6 +58,10 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         book.save()
 
         serializer.save(user=self.request.user)
+
+        text_telegram(
+            f"User: {self.request.user} take book {book.title}"
+        )
 
     @action(
         detail=True,
@@ -57,6 +79,10 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         borrowing.book.inventory += 1
         borrowing.book.save()
         borrowing.save()
+
+        text_telegram(
+            f"User {self.request.user} return book {borrowing.book.title}"
+        )
 
         return Response(
             {"detail": "Book returned"},
