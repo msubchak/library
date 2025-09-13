@@ -25,7 +25,6 @@ def text_telegram(text):
         return
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     resp = requests.post(url, data={"chat_id": chat_id, "text": text})
-    print(resp.status_code, resp.text)
 
 
 class BorrowingViewSet(viewsets.ModelViewSet):
