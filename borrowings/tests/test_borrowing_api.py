@@ -6,8 +6,6 @@ from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
 
-from books.models import Book
-from books.serializers import BookListSerializer, BookRetrieveSerializer
 from books.tests.test_book_api import book_sample
 from borrowings.models import Borrowing
 from borrowings.serializers import BorrowingListSerializer, BorrowingRetrieveSerializer
