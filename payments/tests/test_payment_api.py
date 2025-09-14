@@ -12,7 +12,6 @@ class PaymentApiTests(TestCase):
         data = {"money_to_pay": 10, "borrowing": borrowing.id, "type": "Payment"}
         serializer = PaymentSerializer(data=data)
         serializer.is_valid()
-        print(serializer.errors)
         self.assertTrue(serializer.is_valid())
         payment = serializer.save()
 
@@ -30,4 +29,3 @@ class PaymentApiTests(TestCase):
 
         self.assertEqual(res.status_code, 201)
         self.assertEqual(res.data["session_url"], "http://session.url")
-
