@@ -1,4 +1,4 @@
-from django.contrib import admin
+
 from django.urls import path, include
 from rest_framework import routers
 
@@ -8,7 +8,7 @@ app_name = "borrowings"
 
 router = routers.DefaultRouter()
 
-router.register("borrowings", BorrowingViewSet)
+router.register("", BorrowingViewSet, basename="borrowings")
 urlpatterns = [
     path("", include(router.urls)),
 ]
