@@ -30,18 +30,14 @@ def book_sample(**params):
 class UnauthenticatedBooksApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.books_list_url = reverse("books:books-list")
-
-    def books_retrieve_url(self, book_id):
-        return reverse("books:books-detail", args=[book_id])
 
     def test_book_list_auth_required(self):
-        res = self.client.get(self.books_list_url)
+        res = self.client.get(BOOK_LIST_URL)
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_book_retrieve_auth_required(self):
         book = book_sample()
-        url = self.books_retrieve_url(book.id)
+        url = book_retrieve_url(book.id)
         res = self.client.get(url)
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
