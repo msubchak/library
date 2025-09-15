@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     "payments",
     "rest_framework",
     "django_crontab",
-    "debug_toolbar"
+    "debug_toolbar",
+    "drf_spectacular",
 ]
 
 AUTH_USER_MODEL = "users.User"
@@ -150,6 +151,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SIMPLE_JWT = {
@@ -168,3 +170,10 @@ STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY")
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Library",
+    "DESCRIPTION": "Documentation for Library API",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    }
