@@ -47,12 +47,14 @@ INSTALLED_APPS = [
     "payments",
     "rest_framework",
     "django_crontab",
+    "debug_toolbar"
 ]
 
 AUTH_USER_MODEL = "users.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -104,7 +106,6 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -163,3 +164,7 @@ CRONJOBS = [
 
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
 STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY")
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
