@@ -159,7 +159,7 @@ SIMPLE_JWT = {
 }
 
 CRONJOBS = [
-    ('0 9 * * *', 'borrowings.tasks.overdue_books')
+    ("0 9 * * *", "borrowings.tasks.overdue_books")
 ]
 
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
