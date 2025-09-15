@@ -10,4 +10,6 @@ def overdue_books():
         expected_return_date__lte=date.today()
     )
     for borrowing in borrowing_overdue:
-        text_telegram(f"User {borrowing.user} overdue book {borrowing.book.title}")
+        text_telegram(
+            f"User {borrowing.user} overdue book {borrowing.book.title}"
+        )

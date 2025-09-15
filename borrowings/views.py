@@ -10,8 +10,12 @@ from rest_framework.response import Response
 
 from Library.permissions import IsAdminOrIfAuthenticatedReadOnly
 from borrowings.models import Borrowing
-from borrowings.serializers import BorrowingListSerializer, BorrowingRetrieveSerializer, BorrowingCreateSerializer, \
+from borrowings.serializers import (
+    BorrowingListSerializer,
+    BorrowingRetrieveSerializer,
+    BorrowingCreateSerializer,
     BorrowingReturnSerializer
+)
 
 
 load_dotenv()
@@ -45,7 +49,6 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         elif self.action == "return_book":
             return BorrowingReturnSerializer
         return BorrowingRetrieveSerializer
-
 
     def perform_create(self, serializer):
         book = serializer.validated_data["book"]

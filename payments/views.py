@@ -26,14 +26,18 @@ class CreatePaymentView(APIView):
 
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
-            line_items=[{
-                "price_data": {
-                    "currency": "usd",
-                    "product_data": {"name": f"Borrowing {payment.borrowing.id}"},
-                    "unit_amount": int(payment.money_to_pay * 100),
-                },
-                "quantity": 1,
-            }],
+            line_items=[
+                {
+                    "price_data": {
+                        "currency": "usd",
+                        "product_data": {
+                            "name": f"Borrowing {payment.borrowing.id}"
+                        },
+                        "unit_amount": int(payment.money_to_pay * 100),
+                    },
+                    "quantity": 1,
+                }
+            ],
             mode="payment",
             success_url=request.build_absolute_uri(
                 "/api/payments/success/?session_id={CHECKOUT_SESSION_ID}"
@@ -45,8 +49,10 @@ class CreatePaymentView(APIView):
         payment.session_url = session.url
         payment.save()
 
-        return Response({"session_url": payment.session_url}, status=status.HTTP_201_CREATED)
-
+        return Response(
+            {"session_url": payment.session_url},
+            status=status.HTTP_201_CREATED
+        )
 
 
 class PaymentSuccessView(APIView):
@@ -56,11 +62,20 @@ class PaymentSuccessView(APIView):
             payment = Payment.objects.get(session_id=session_id)
             payment.status = "PAID"
             payment.save()
-            return Response({"message": "Payment successful"}, status=status.HTTP_200_OK)
+            return Response(
+                {"message": "Payment successful"},
+                status=status.HTTP_200_OK
+            )
         except Payment.DoesNotExist:
-            return Response({"error": "Payment not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"error": "Payment not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
 
 
 class PaymentCancelView(APIView):
     def get(self, request, *args, **kwargs):
-        return Response({"message": "Payment cancelled"}, status=status.HTTP_200_OK)
+        return Response(
+            {"message": "Payment cancelled"},
+            status=status.HTTP_200_OK
+        )

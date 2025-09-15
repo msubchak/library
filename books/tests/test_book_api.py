@@ -51,7 +51,6 @@ class AuthenticatedBooksApiTests(TestCase):
         )
         self.client.force_authenticate(user=self.user)
 
-
     def test_books_list(self):
         book_1 = book_sample()
         book_2 = book_sample()

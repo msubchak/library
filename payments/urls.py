@@ -1,6 +1,10 @@
 from django.urls import path
 
-from payments.views import CreatePaymentView, PaymentSuccessView, PaymentCancelView
+from payments.views import (
+    CreatePaymentView,
+    PaymentSuccessView,
+    PaymentCancelView
+)
 
 
 app_name = "payments"
